@@ -1,0 +1,27 @@
+[server]
+host = "0.0.0.0"
+port = 5057
+
+[api]
+base_path = "/api"
+version = "v1"
+
+[logging]
+level = "info"
+format = "json"
+
+[swagger]
+enabled = true
+path = "/swagger-ui"
+title = "PetAddr Server API"
+description = "RESTful API server for PetAddr project with layered architecture"
+version = "1.0.0"
+
+[pet_generator]
+pool_size = 100
+batch_size = 10
+db_path = "./data/pet_addresses.db"
+
+[rate_limit]
+max_requests_per_minute = 10
+window_seconds = 60
