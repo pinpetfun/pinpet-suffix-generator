@@ -1,5 +1,5 @@
 use anyhow::Result;
-use PetAddr::{config::AppConfig, utils::load_env, run_server};
+use pinpet_suffix_generator::{config::AppConfig, utils::load_env, run_server};
 
 #[tokio::main]
 async fn main() -> Result<()> {
