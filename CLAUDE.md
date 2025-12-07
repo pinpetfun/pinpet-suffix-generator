@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-PetAddr is a modern Rust web server project based on the Axum framework, designed with layered architecture, providing time service APIs and complete Swagger documentation.
+PetAddr is a modern Rust web server project based on the Axum framework, designed with layered architecture, generating Solana addresses ending with lowercase letter + "Pet" suffix (e.g., aPet, bPet, nPet) and providing complete Swagger documentation.
 
 **Important**: All code comments, documentation, and user-facing text in this project are written in English.
 
@@ -23,7 +23,8 @@ cargo run
 - **Main Service**: http://localhost:5057
 - **API Documentation**: http://localhost:5057/swagger-ui
 - **Health Check**: http://localhost:5057/health
-- **Time API**: http://localhost:5057/api/v1/time
+- **Pet Address API**: http://localhost:5057/api/v1/pet/address
+- **Pet Status API**: http://localhost:5057/api/v1/pet/status
 
 ## Project Architecture
 
@@ -37,15 +38,23 @@ src/
 ├── handlers/            # Request handlers
 │   ├── mod.rs
 │   ├── health.rs       # Health check handlers
+│   ├── pet.rs          # Pet address handlers
 │   └── time.rs         # Time service handlers
 ├── middleware/          # Middleware
 │   ├── mod.rs
 │   ├── cors.rs         # CORS handling
-│   └── logging.rs      # Logging middleware
+│   ├── logging.rs      # Logging middleware
+│   └── rate_limit.rs   # Rate limiting
 ├── models/              # Data models
 │   ├── mod.rs
 │   ├── response.rs     # Response models
+│   ├── pet.rs          # Pet address models
 │   └── time.rs         # Time-related models
+├── pet/                 # Pet address generation
+│   ├── mod.rs
+│   ├── address.rs      # Address generation and validation
+│   ├── generator.rs    # Background generator
+│   └── storage.rs      # Database operations
 ├── routes/              # Route definitions
 │   └── mod.rs          # Route organization and configuration
 └── utils/               # Utility modules
@@ -118,6 +127,10 @@ cargo clean
 ### Health Check
 - `GET /health` - Basic health check
 - `GET /health/detailed` - Detailed health information (including memory usage, etc.)
+
+### Pet Address Service
+- `GET /api/v1/pet/address` - Get a Solana address ending with lowercase letter + "Pet" (e.g., aPet, bPet, nPet)
+- `GET /api/v1/pet/status` - Check generator status and pool size
 
 ### Time Service
 - `GET /api/v1/time` - Get server time

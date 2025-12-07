@@ -1,10 +1,10 @@
 # PetAddr - Solana Pet Address Generator
 
-A high-performance Rust web server that generates Solana addresses ending with "Pet" suffix. Built with Axum framework and featuring automatic address pool management.
+A high-performance Rust web server that generates Solana addresses ending with lowercase letter + "Pet" suffix (e.g., aPet, bPet, nPet). Built with Axum framework and featuring automatic address pool management.
 
 ## Features
 
-- **Pet Address Generation**: Generates Solana addresses that end with "Pet"
+- **Pet Address Generation**: Generates Solana addresses that end with lowercase letter + "Pet" (aPet, bPet, cPet, ..., zPet)
 - **Automatic Pool Management**: Maintains a pool of 100 pre-generated addresses
 - **Background Generation**: Automatically generates new addresses when pool runs low
 - **Persistent Storage**: Uses sled embedded database for address storage
@@ -37,7 +37,7 @@ The server will start on `http://localhost:5057`
 
 ### Get a Pet Address
 
-Retrieve a Solana address ending with "Pet" along with its private key:
+Retrieve a Solana address ending with lowercase letter + "Pet" (e.g., aPet, bPet, nPet) along with its private key:
 
 ```bash
 curl http://localhost:5057/api/v1/pet/address
@@ -50,9 +50,9 @@ curl http://localhost:5057/api/v1/pet/address
   "message": "success",
   "data": {
     "id": 1,
-    "public_key": "AGm9DpEaQYHxLKy98WGGoqErJEML9Pf5HySA1o4sKPet",
+    "public_key": "AGm9DpEaQYHxLKy98WGGoqErJEML9Pf5HySA1o4skPet",
     "private_key": "24vtL5hidJdxFhXPg3M6taaETDwwscLBLBjvoHDdSk4d...",
-    "address": "AGm9DpEaQYHxLKy98WGGoqErJEML9Pf5HySA1o4sKPet",
+    "address": "AGm9DpEaQYHxLKy98WGGoqErJEML9Pf5HySA1o4skPet",
     "created_at": "2025-09-18T18:22:27.560460384+00:00"
   },
   "timestamp": 1758220011
@@ -112,7 +112,7 @@ window_seconds = 60
 ## How It Works
 
 1. **Background Generation**: Server continuously generates Solana keypairs
-2. **Pet Validation**: Only addresses ending with "Pet" are stored
+2. **Pet Validation**: Only addresses ending with lowercase letter + "Pet" (e.g., aPet, bPet, zPet) are stored
 3. **Pool Management**: Maintains a pool of 100 ready-to-use addresses
 4. **Auto-Replenishment**: Generates new addresses when pool drops below target
 5. **Atomic Retrieval**: Each address is returned once and removed from pool
