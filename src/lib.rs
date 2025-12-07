@@ -6,15 +6,14 @@ pub mod routes;
 pub mod utils;
 pub mod pet;
 
-use axum::{Extension, Router};
+use axum::Router;
 use tower::ServiceBuilder;
-use tower_http::trace::TraceLayer;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 use std::sync::Arc;
 
 use crate::config::AppConfig;
-use crate::middleware::{cors_layer, logging_layer, RateLimiter, rate_limit_middleware};
+use crate::middleware::{cors_layer, logging_layer, RateLimiter};
 use crate::routes::create_routes;
 use crate::handlers::PetAppState;
 use crate::pet::{PetGenerator, PetStorage};
@@ -57,21 +56,24 @@ pub struct ApiDoc;
 pub async fn create_app(config: AppConfig) -> anyhow::Result<(Router, Arc<PetGenerator>)> {
     // Initialize Pet storage
     let storage = Arc::new(PetStorage::new(&config.pet_generator.db_path)?);
-    
+
+    // Start background counter persistence (non-blocking)
+    storage.start_counter_persistence();
+
     // Initialize Pet generator
     let generator = Arc::new(PetGenerator::new(
         Arc::clone(&storage),
         config.pet_generator.clone(),
     ));
-    
+
     // Create Pet app state
     let pet_state = Arc::new(PetAppState {
         generator: Arc::clone(&generator),
         storage,
     });
     
-    // Create rate limiter
-    let rate_limiter = RateLimiter::new(
+    // Create rate limiter (currently unused, reserved for future use)
+    let _rate_limiter = RateLimiter::new(
         config.rate_limit.max_requests_per_minute,
         config.rate_limit.window_seconds,
     );
