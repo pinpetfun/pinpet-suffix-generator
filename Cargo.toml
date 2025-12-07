@@ -16,7 +16,6 @@ utoipa-swagger-ui = { version = "9", features = ["axum"] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
 config = "0.14"
-dotenvy = "0.15"
 anyhow = "1.0"
 sled = "0.34"
 solana-sdk = "2.1"

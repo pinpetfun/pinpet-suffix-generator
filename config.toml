@@ -18,8 +18,8 @@ description = "RESTful API server for PetAddr project with layered architecture"
 version = "1.0.0"
 
 [pet_generator]
-pool_size = 100
-batch_size = 10
+pool_size = 1000
+batch_size = 4
 db_path = "./data/pet_addresses.db"
 
 [rate_limit]

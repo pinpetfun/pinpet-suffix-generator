@@ -65,8 +65,6 @@ src/
 
 ### Configuration Files
 - **config.toml**: Main configuration file (port, API paths, etc.)
-- **.env**: Environment variable configuration (optional)
-- **.env.example**: Environment variable examples
 
 ## Development Commands
 
@@ -145,10 +143,9 @@ cargo clean
 ## Configuration Management
 
 ### Configuration Priority
-1. Environment variables (highest priority)
-2. .env file
-3. config.{RUST_ENV}.toml
-4. config.toml (default)
+1. Environment variables with `APP_` prefix (highest priority)
+2. config.{RUST_ENV}.toml (environment-specific)
+3. config.toml (default)
 
 ### Main Configuration Items
 ```toml
@@ -167,10 +164,11 @@ path = "/swagger-ui" # Swagger path
 
 ## Environment Variables
 
-### Supported Environment Variables
-- `SERVER_HOST` - Server host address
-- `SERVER_PORT` - Server port
-- `LOG_LEVEL` - Log level (trace|debug|info|warn|error)
+Configuration values can be overridden using environment variables with the `APP_` prefix. Examples:
+
+- `APP_SERVER_HOST` - Override server host address
+- `APP_SERVER_PORT` - Override server port
+- `APP_LOGGING_LEVEL` - Override log level (trace|debug|info|warn|error)
 - `RUST_ENV` - Runtime environment (development|production)
 
 ## Development Notes
